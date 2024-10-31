@@ -1,0 +1,11 @@
+httpx
+cryptography
+onnxruntime
+opencv-python
+numpy
+torch
+torchvision
+Pillow
+matplotlib
+tqdm
+shutil
