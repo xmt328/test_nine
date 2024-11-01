@@ -15,7 +15,11 @@ app = FastAPI()
 
 
 @app.get("/pass_nine")
-def get_pic(gt: str = Query(...), challenge: str = Query(...), point: str = Query(default=None)):
+def get_pic(gt: str = Query(...), 
+            challenge: str = Query(...), 
+            point: str = Query(default=None), 
+            use_v3_model = Query(default=True)
+           ):
     print(f"开始获取:\ngt:{gt}\nchallenge:{challenge}")
     t = time.time()
 
@@ -32,13 +36,16 @@ def get_pic(gt: str = Query(...), challenge: str = Query(...), point: str = Quer
     pic_content,pic_name = crack.get_pic()
 
     crop_image_v3(pic_content)
-
-    with open(f"{validate_path}/cropped_9.jpg", "rb") as rb:
-        icon_image = rb.read()
-    with open(f"{validate_path}/nine.jpg", "rb") as rb:
-        bg_image = rb.read()
     
-    result_list = predict_onnx(icon_image, bg_image, point)
+    if use_v3_model:
+        result_list = predict_onnx_pdl(validate_path)
+    else:
+        with open(f"{validate_path}/cropped_9.jpg", "rb") as rb:
+            icon_image = rb.read()
+        with open(f"{validate_path}/nine.jpg", "rb") as rb:
+            bg_image = rb.read()
+        result_list = predict_onnx(icon_image, bg_image, point)
+        
     point_list = [f"{col}_{row}" for row, col in result_list]
     wait_time = 4.0 - (time.time() - t)
     time.sleep(wait_time)
@@ -59,7 +66,7 @@ def get_pic(gt: str = Query(...), challenge: str = Query(...), point: str = Quer
 
 
 if __name__ == "__main__":
-    from predict import predict_onnx
+    from predict import predict_onnx,predict_onnx_pdl
     import uvicorn
     print(f"{' '*10}api: http://127.0.0.1:{port}/pass_nine{' '*10}")
     print(f"{' '*10}api所需参数：gt、challenge、point(可选){' '*10}")
