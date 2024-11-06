@@ -16,22 +16,22 @@ api：https://github.com/ravizhan/geetest-v3-click-crack
 
 ### 1.安装依赖
 
-如果要训练paddle的话还得安装paddlex及图像分类模块，安装看项目https://github.com/PaddlePaddle/PaddleX
+（可选）如果要训练paddle的话还得安装paddlex及图像分类模块，安装看项目https://github.com/PaddlePaddle/PaddleX
 
-模型需要在项目目录下新建一个model文件夹，然后放进去，具体命名可以是resnet18.onnx或者PP-HGNetV2-B4.onnx
+模型需要在项目目录下新建一个model文件夹，然后把模型文件放进去，具体命名可以是resnet18.onnx或者PP-HGNetV2-B4.onnx，默认使用PP-HGNetV2-B4模型，如果用resnet则use_v3_model设置为False，因为模型的输入输出不一样，可以自行修改
 
 ```
 pip install -r requirements.txt
 ```
 
-### 2.自行准备数据集，V3和V4有区别
+### 2.自行准备数据集，V3和V4有区别（可选）
 
-##### a. 训练resnet18
+##### a. 训练resnet18（可选）
 
 - 数据集详情参考上面标注的项目，但是上面项目是V4数据集，V3没有demo，自行发挥吧，用V4练V3不改代码正确率有点感人
 - 主要是V4的尺寸和V3有差别，V4的api直接给两张图，一张是目标图，一张是九宫格，V3放在一起要切目标，且V3目标图清晰度很低，V4九宫格切了之后是100 * 86的图（去掉黑边），但是V3九宫格切的是112 * 112，不确定V4九宫格内容在V3基础上做了什么变换，反正改预处理就完事了
 
-##### b. 训练PP-HGNetV2-B4
+##### b. 训练PP-HGNetV2-B4（可选）
 
 在paddle上随便找的，数据集格式如下，如果拿V4练V3，建议是多整点变换
 
@@ -45,17 +45,17 @@ pip install -r requirements.txt
 
 ##### c. 如果要切V3的图用crop_image.py的crop_image_v3，切V4则使用crop_image，自行编写切图脚本
 
-### 3.训练模型
+### 3.训练模型（可选）
 
 - 训练resnet18运行 `python train.py`
 - 如果训练PP-HGNetV2-B4运行`python train_paddle.py`
 
-### 4.模型转换为onnx
+### 4.模型转换为onnx（可选）
 
 - 运行 `python convert.py`（自行进去修改需要转换的模型，一般是选loss小的）
 - paddle模型转换要装paddle2onnx，详情参见https://www.paddlepaddle.org.cn/documentation/docs/guides/advanced/model_to_onnx_cn.html
 
-### 5.启动fastapi服务
+### 5.启动fastapi服务（必须要有训练完成的onnx格式模型）
 
 运行 `python main.py`（默认用的paddle的onnx模型，如果要用resnet18可以自己改注释）
 
