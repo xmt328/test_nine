@@ -16,9 +16,9 @@ api：https://github.com/ravizhan/geetest-v3-click-crack
 
 ### 1.安装依赖
 
-（可选）如果要训练paddle的话还得安装paddlex及图像分类模块，安装看项目https://github.com/PaddlePaddle/PaddleX
+（可选）a.如果要训练paddle的话还得安装paddlex及图像分类模块，安装看项目https://github.com/PaddlePaddle/PaddleX
 
-模型需要在项目目录下新建一个model文件夹，然后把模型文件放进去，具体命名可以是resnet18.onnx或者PP-HGNetV2-B4.onnx，默认使用PP-HGNetV2-B4模型，如果用resnet则use_v3_model设置为False，因为模型的输入输出不一样，可以自行修改
+（* 必选！）b.模型需要在项目目录下新建一个model文件夹，然后把模型文件放进去，具体命名可以是resnet18.onnx或者PP-HGNetV2-B4.onnx，默认使用PP-HGNetV2-B4模型，如果用resnet则use_v3_model设置为False，因为模型的输入输出不一样，可以自行修改
 
 ```
 pip install -r requirements.txt
