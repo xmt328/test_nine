@@ -9,3 +9,5 @@ Pillow
 matplotlib
 tqdm
 shutil
+uvicorn
+fastapi
