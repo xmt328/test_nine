@@ -2,9 +2,9 @@ import os
 
 import numpy as np
 
-from train import MyResNet18, data_transform
+
 from crop_image import crop_image, convert_png_to_jpg,draw_points_on_image
-import torch
+
 import time
 import cv2
 from PIL import Image
@@ -13,6 +13,8 @@ import onnxruntime as ort
 
 
 def predict(icon_image, bg_image):
+    from train import MyResNet18, data_transform
+    import torch
     current_dir = os.path.dirname(os.path.abspath(__file__))
     model_path = os.path.join(current_dir, 'model', 'resnet18_38_0.021147585306924.pth')
     coordinates = [
@@ -193,9 +195,10 @@ def predict_onnx_pdl(images_path):
     target = result[-1]
     answer = [coordinates[index] for index in range(9) if result[index] == target]
     print(f"识别完成{answer}，耗时: {time.time() - start}")
-    with open(os.path.join(images_path,"nine.jpg"),'rb') as f:
-        bg_image = f.read()
-    draw_points_on_image(bg_image, answer)
+    if os.path.exists(os.path.join(images_path,"nine.jpg")):
+        with open(os.path.join(images_path,"nine.jpg"),'rb') as f:
+            bg_image = f.read()
+        draw_points_on_image(bg_image, answer)
     return answer
     
     
