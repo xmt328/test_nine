@@ -55,11 +55,15 @@ pip install -r requirements.txt
 - 运行 `python convert.py`（自行进去修改需要转换的模型，一般是选loss小的）
 - paddle模型转换要装paddle2onnx，详情参见https://www.paddlepaddle.org.cn/documentation/docs/guides/advanced/model_to_onnx_cn.html
 
-### 5.启动fastapi服务（必须要有训练完成的onnx格式模型）
+### 5-a.启动fastapi服务（必须要有训练完成的onnx格式模型）
 
 运行 `python main.py`（默认用的paddle的onnx模型，如果要用resnet18可以自己改注释）
 
 由于轨迹问题，可能会出现验证正确但是结果失败，所以建议增加retry次数，训练后的paddle模型正确率在99.9%以上
+### 5-b.使用docker启动服务
+
+镜像地址为luguoyixiazi/test_nine:25.3.21
+运行时只需指定绑定的port即可
 
 ### 6.api调用
 
