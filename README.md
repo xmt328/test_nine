@@ -14,7 +14,7 @@ api：https://github.com/ravizhan/geetest-v3-click-crack
 
 ## 运行步骤
 
-### 1.安装依赖（本地必选，使用docker跳至[5-b](#section1)）
+### 1.安装依赖（本地必选，使用docker跳至[5-b](#docker)）
 
 （可选）a.如果要训练paddle的话还得安装paddlex及图像分类模块，安装看项目https://github.com/PaddlePaddle/PaddleX
 
@@ -61,9 +61,8 @@ pip install -r requirements.txt
 
 由于轨迹问题，可能会出现验证正确但是结果失败，所以建议增加retry次数，训练后的paddle模型正确率在99.9%以上
 ### 5-b.使用docker启动服务 
-{#section1}
 
-镜像地址为luguoyixiazi/test_nine:25.3.21
+镜像地址为<span id="docker">luguoyixiazi/test_nine:25.3.21</span>
 
 运行时只需指定绑定的port即可
 
