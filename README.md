@@ -24,6 +24,11 @@ api：https://github.com/ravizhan/geetest-v3-click-crack
 pip install -r requirements.txt
 ```
 
+仅推理
+```
+pip install -r requirements_without_train.txt
+```
+
 ### 2.自行准备数据集，V3和V4有区别（可选）
 
 ##### a. 训练resnet18（可选）
