@@ -1,0 +1,10 @@
+httpx
+cryptography
+onnxruntime
+opencv-python
+numpy
+Pillow
+matplotlib
+tqdm
+fastapi
+uvicorn
