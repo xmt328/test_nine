@@ -63,6 +63,7 @@ pip install -r requirements.txt
 ### 5-b.使用docker启动服务
 
 镜像地址为luguoyixiazi/test_nine:25.3.21
+
 运行时只需指定绑定的port即可
 
 ### 6.api调用
@@ -73,12 +74,14 @@ python调用如：
 import httpx
 
 def game_captcha(gt: str, challenge: str):
-	res = httpx.get("http://127.0.0.1:9645/pass_nine",params={'gt':gt,'challenge':challenge,'use_v3_model':True},timeout=10)
+	res = httpx.get("http://127.0.0.1:9645/pass_nine",params={'gt':gt,'challenge':challenge,'use_v3_model':True,"save_result":False},timeout=10)
 	datas = res.json()['data']
     if datas['result'] == 'success':
         return datas['validate']
     return None # 失败返回None 成功返回validate
 ```
+
+具体调用代码看使用项目，此处示例仅为API url和参数示例
 
 #### --宣传--
 
