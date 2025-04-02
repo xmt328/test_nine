@@ -3,12 +3,13 @@ import json
 import math
 import random
 import time
+import os
 
 import httpx
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.primitives import padding, serialization
 from cryptography.hazmat.primitives.asymmetric.padding import PKCS1v15
-from crop_image import validate_path
+from .crop_image import validate_path
 from os import path as PATH
 
 
@@ -33,7 +34,9 @@ Bm1Zzu+l8nSOqAurgQIDAQAB
 -----END PUBLIC KEY-----'''
         self.public_key = serialization.load_pem_public_key(public_key.encode())
         self.enc_key = self.public_key.encrypt(self.aeskey.encode(), PKCS1v15()).hex()
-        with open("mousepath.json", "r") as f:
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        mousepath = os.path.join(current_dir, "mousepath.json")
+        with open(mousepath, "r") as f:
             self.mouse_path = json.loads(f.read())
 
     def get_type(self) -> dict:

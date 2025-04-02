@@ -3,7 +3,7 @@ import os
 import numpy as np
 
 
-from crop_image import crop_image, convert_png_to_jpg,draw_points_on_image
+from .crop_image import crop_image, convert_png_to_jpg,draw_points_on_image
 
 import time
 import cv2

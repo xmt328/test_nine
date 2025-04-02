@@ -3,7 +3,7 @@ from io import BytesIO
 import cv2
 import numpy as np
 import os
-current_path = os.getcwd()
+current_path = os.path.dirname(os.path.abspath(__file__))
 validate_path = os.path.join(current_path,'img_2_val')#要验证的图片暂存
 save_path = os.path.join(current_path,'img_saved')#存放历史图片，留作做数据集以待标记
 save_pass_path = os.path.join(save_path,'img_pass')#校验失败的图片，可能是轨迹有误，不一定是分类错误
