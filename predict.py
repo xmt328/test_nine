@@ -4,6 +4,7 @@ import numpy as np
 
 
 from .crop_image import crop_image, convert_png_to_jpg,draw_points_on_image
+from .log import log
 
 import time
 import cv2
@@ -39,7 +40,7 @@ def predict(icon_image, bg_image):
     model = MyResNet18(num_classes=91)  # 这里的类别数要与训练时一致
     model.load_state_dict(torch.load(model_path))
     model.eval()
-    print("加载模型，耗时:", time.time() - start)
+    log.info("加载模型，耗时: %f", time.time() - start)
     start = time.time()
 
     target_images = torch.stack(target_images, dim=0)
@@ -57,14 +58,14 @@ def predict(icon_image, bg_image):
             )
             scores.append(similarity.cpu().item())
     # 从左到右，从上到下，依次为每张图片的置信度
-    print(scores)
+    log.debug(scores)
     # 对数组进行排序，保持下标
     indexed_arr = list(enumerate(scores))
     sorted_arr = sorted(indexed_arr, key=lambda x: x[1], reverse=True)
     # 提取最大三个数及其下标
     largest_three = sorted_arr[:3]
-    print(largest_three)
-    print("识别完成，耗时:", time.time() - start)
+    log.debug(largest_three)
+    log.info("识别完成，耗时: %f", time.time() - start)
 
 def load_model(name='PP-HGNetV2-B4.onnx'):
     # 加载onnx模型
@@ -74,7 +75,7 @@ def load_model(name='PP-HGNetV2-B4.onnx'):
     model_path = os.path.join(current_dir, 'model', name)
     session = ort.InferenceSession(model_path)
     input_name = session.get_inputs()[0].name
-    print("加载模型，耗时:", time.time() - start)
+    log.info("加载模型，耗时: %f", time.time() - start)
 
 
 def predict_onnx(icon_image, bg_image, point = None):
@@ -144,7 +145,7 @@ def predict_onnx(icon_image, bg_image, point = None):
     # 基于分数判断
     else:
         answer = [one[0] for one in sorted_arr if one[1] > point]
-    print(f"识别完成{answer}，耗时: {time.time() - start}")
+    log.info(f"识别完成{answer}，耗时: {time.time() - start}")
     draw_points_on_image(bg_image, answer)
     return answer
 
@@ -194,7 +195,7 @@ def predict_onnx_pdl(images_path):
     result = [np.argmax(one) for one in outputs]
     target = result[-1]
     answer = [coordinates[index] for index in range(9) if result[index] == target]
-    print(f"识别完成{answer}，耗时: {time.time() - start}")
+    log.info(f"识别完成{answer}，耗时: {time.time() - start}")
     if os.path.exists(os.path.join(images_path,"nine.jpg")):
         with open(os.path.join(images_path,"nine.jpg"),'rb') as f:
             bg_image = f.read()

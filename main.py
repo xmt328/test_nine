@@ -4,6 +4,7 @@ import random
 from .crack import Crack
 from .crop_image import crop_image_v3,save_path,save_fail_path,save_pass_path,validate_path
 from .predict import predict_onnx,predict_onnx_pdl
+from .log import log
 from fastapi import FastAPI,Query
 from fastapi.responses import JSONResponse
 import shutil
@@ -21,7 +22,7 @@ def get_pic(gt: str = Query(...),
             use_v3_model = Query(default=True),
             save_result = Query(default=False)
            ):
-    print(f"开始获取:\ngt:{gt}\nchallenge:{challenge}")
+    log.info(f"开始获取:\ngt:{gt}\nchallenge:{challenge}")
     t = time.time()
 
     crack = Crack(gt, challenge)
@@ -62,7 +63,7 @@ def get_pic(gt: str = Query(...),
             if pic.startswith('cropped'):
                 shutil.move(os.path.join(validate_path,pic),os.path.join(path_2_save,pic))
     total_time = time.time() - t
-    print(f"总计耗时(含等待{wait_time}s): {total_time}\n{result}")
+    log.info(f"总计耗时(含等待{wait_time}s): {total_time}\n{result}")
     return JSONResponse(content=result)
 
 
